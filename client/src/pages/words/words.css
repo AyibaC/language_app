@@ -1,0 +1,15 @@
+ul {
+    text-decoration: none;
+    }
+
+.word-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.word-card {
+    padding: 5%;
+    margin: 1%;
+    border: solid 1px;
+    border-radius: 2px;
+}
