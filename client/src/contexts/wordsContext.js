@@ -28,7 +28,7 @@ export const WordsProvider = (props) => {
             return;
         } else {
             setLoading(true);
-            console.log('loading words');
+            //console.log('loading words');
         }
         try{
             const response = await fetch('api/v1/words');

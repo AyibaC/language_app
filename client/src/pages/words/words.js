@@ -27,7 +27,7 @@ export default function Words(){
         }
     }, [getWords, words, loading, loaded]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p>Loading...</p>; //TODO: add spinner
 
 //TODO: add alphabet to filter words and button to filter for learned words
     return (
@@ -35,7 +35,7 @@ export default function Words(){
             <h1>Words</h1>
             <div className="word-grid-container">
                 {words.map(({id, mother_tongue, target_language, is_learned})=>{
-                    return (<div key={id} _id={id} className="word-card">
+                    <div key={id} _id={id} className="word-card">
                         {target_language}
                         <IconButton aria-label="update" component={Link} to={`/words/update/${id}`} >
                 <Edit />
@@ -43,7 +43,7 @@ export default function Words(){
                         <IconButton aria-label="delete" onClick={() => deleteWord(id)} >
                 <Delete />
                 </IconButton>
-                        </div>)
+                        </div>
                 })}
             </div>
         </div>

@@ -13,6 +13,12 @@ module.exports = function (app) {
         app.use(compression());
     }
 
+    // Add Access Control Allow Origin headers
+    app.use((req, res, next) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        next();
+        });
+
     // parse application/x-www-form-urlencoded
     app.use(express.urlencoded({ extended: false }));
 
@@ -25,4 +31,5 @@ module.exports = function (app) {
     app.use(cors());
     //morgan for creating logs of http requests
     app.use(morgan('dev'));
+    
 };
