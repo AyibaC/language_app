@@ -23,9 +23,9 @@ exports.getWords = function (req, res) {
 };
 
 exports.addWord = function (req, res) {
-    const { mother_tongue, target_language } = req.body;
+    const { mother_tongue, target_language, owner_id } = req.body;
     console.log("word input", req.body);
-    pool.query('INSERT INTO words (mother_tongue, target_language) VALUES ($1, $2)', [mother_tongue, target_language], (error, results) => {
+    pool.query('INSERT INTO words (mother_tongue, target_language, owner_id) VALUES ($1, $2, $3)', [mother_tongue, target_language, owner_id], (error, results) => {
         if (error) {
         return errorHandler(res, error)
         }

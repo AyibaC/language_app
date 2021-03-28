@@ -1,0 +1,23 @@
+.logo {
+    font-size: 5rem;
+    color: rgb(52, 135, 207);
+}
+
+.page-header {
+    border: 5%;
+    background-color: rgb(26, 171, 45);
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+Button {
+    height: 1.5rem;
+}

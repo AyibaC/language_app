@@ -1,5 +1,9 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { useToasts } from 'react-toast-notifications';
+import { useAuth0 } from "@auth0/auth0-react";
+
+
+const domain = window.location.host;
 
 export const WordsContext = createContext ({
     getWords: () => {},
@@ -13,14 +17,47 @@ export const WordsContext = createContext ({
 });
 
 export const WordsProvider = (props) => {
+    const { getAccessTokenSilently, user, loginWithRedirect } = useAuth0();
+    const [accessToken, setAccessToken] = useState(null);
+
     const [loaded, setLoaded] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [words, setWords] = useState(()=>{
-        return JSON.parse(localStorage.getItem('words')) || [];
-    });
+    const [words, setWords] = useState([])
+    // const [words, setWords] = useState(()=>{
+    //     const savedWords = localStorage.getItem('words');
+    //     console.log('savedWords', savedWords);
+    // if (savedWords === "undefined") {
+    //     return [];
+    // }
+    // return JSON.parse(savedWords);
+    // });
 
     const { addToast } = useToasts();
+
+    useEffect(() => {
+        const getToken = async () => {
+        console.log("gettng AT", `http://${domain}/api/v1`);
+        try {
+        const Acctoken = await getAccessTokenSilently();
+        console.log("GOT AT", Acctoken);
+        setAccessToken(Acctoken);
+        console.log("afterSet", accessToken);
+        } catch (err) {
+        console.log("getAccessTokenSilently err", err);
+        if (
+            err.error === "login_required" ||
+            err.error === "consent_required"
+        ) {
+            loginWithRedirect();
+        }
+        }
+    };
+    if (user) {
+        console.log("user", user);
+        getToken();
+    }
+    }, [accessToken, getAccessTokenSilently, loginWithRedirect, user]);
 
     const getWords = async () => {
         if (loading || loaded || error){
@@ -31,13 +68,19 @@ export const WordsProvider = (props) => {
             //console.log('loading words');
         }
         try{
-            const response = await fetch('api/v1/words');
+            const response = await fetch('/api/v1/words', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
             if (!response.ok){
                 throw response;
             }
             const data = await response.json();
             console.log(data.rows);
-            localStorage.setItem('words', data.words);
+            localStorage.setItem('words', JSON.stringify(data.rows));
             setWords(data.rows);
         } catch (err) {
             console.log(err.message || err.statusText)
@@ -47,14 +90,16 @@ export const WordsProvider = (props) => {
         }
     }
 
-    const addWord = async (formData) => {
+    const addWord = async (formData, user) => {
+        const user_id = user.sub
         try {
             const response = await fetch('/api/v1/words', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 },
-                body: formData
+                body: {...formData, user_id}
             })
             if(!response.ok) {
                 throw response;
@@ -74,10 +119,11 @@ export const WordsProvider = (props) => {
     const updateWord = async(id, formData) => {
         let updatedWord = null
         try {
-            const response = await fetch(`api/v1/words/${id}`,{
+            const response = await fetch(`/api/v1/words/${id}`,{
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 },
                 body: formData
             })
@@ -104,6 +150,7 @@ export const WordsProvider = (props) => {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
                 },
             })
             if (!response.ok){
