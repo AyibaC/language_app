@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
+.login-title {
+    font-size: 5rem;
+    color: rgb(52, 135, 207);
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.page-header {
+    border: 5%;
+    background-color: rgb(26, 171, 45);
+}

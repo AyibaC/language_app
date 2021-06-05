@@ -37,6 +37,7 @@ function App() {
         domain="dev-1qrl1afc.eu.auth0.com"
         clientId="3A6FMsTa6Gmw1Gfq791fCfRe2iY6zcLR"
         redirectUri={window.location.origin}
+        //audience="https://dev-1qrl1afc.eu.auth0.com/api/v2/"
         onRedirectCallback={onRedirectCallback}>
           <Router history={history}>
             <ToastProvider autoDismiss={true}>

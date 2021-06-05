@@ -15,7 +15,9 @@
     "crossenv": "^0.0.2-security",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
     "helmet": "^4.4.1",
+    "jwks-rsa": "^2.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
     "postgres": "^1.0.2"

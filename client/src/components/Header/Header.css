@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
 .logo {
     font-size: 5rem;
     color: rgb(52, 135, 207);
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 .page-header {
@@ -10,14 +13,17 @@
 
 .title {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-nav {
     display: flex;
     justify-content: space-between;
+    width: 40%;
 }
 
 Button {
     height: 1.5rem;
 }
+
